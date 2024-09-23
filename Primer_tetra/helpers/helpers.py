@@ -17,7 +17,7 @@ def setup_data_directory() -> str:
 def save_dataframe(data: pd.DataFrame, filename: str = 'output.xlsx',
                     index: bool = False) -> pd.DataFrame:
     """ Guarda un Dataframe en formato Excel considerando la ruta de setup_data_directory.
-        Parameters:
+        Args:
             data (pandas.DataFrame): DataFrame a guardar
             filename (str, optional):Nombre del archivo que será guardado.
                                      Por default es  'output.xlsx'.
@@ -28,15 +28,19 @@ def save_dataframe(data: pd.DataFrame, filename: str = 'output.xlsx',
     folder_path = setup_data_directory()
     file_path = os.path.join(folder_path, filename)
     data.to_excel(file_path, index=index)
-    print(f'Ruta de guardado: {file_path}')
     print(f'DataFrame guardado en: {file_path}')
 
 def save_plot(fig, filename='plot.png', dpi=300, show=True):
-    """D"""
+    """ Guarda un plot usando la dirección de setup directory.
+        Args:
+            filename (str, optional):Nombre del archivo que será guardado.
+                                     Por default es  'plot.png'.
+            dpi (int, optional):Tamaño de la imagen mostrada.
+            show (bool, optional): Por default muestra la imagen una vez guardada.
+        return (pd.DataFrame): Retorna un dataframe con la información guardada."""
     folder_path = setup_data_directory()
     file_path = os.path.join(folder_path, filename)
     fig.savefig(file_path, dpi=dpi, bbox_inches='tight')
-    print(f'Ruta de guardado: {file_path}')
     if show:
         plt.show()
     plt.close(fig)
