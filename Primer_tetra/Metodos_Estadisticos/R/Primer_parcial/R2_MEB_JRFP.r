@@ -166,7 +166,6 @@ variables_y_distribuciones <- list(
   list("Volumen", "normal")
 )
 
-# Aplicar la función para cada variable
 # for (variable in variables_y_distribuciones) {
 #   guardar_histograma_con_ajuste(data_gold_price, variable[[1]], variable[[2]], ruta_histogramas)
 # }
