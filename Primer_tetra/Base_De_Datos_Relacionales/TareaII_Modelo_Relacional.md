@@ -205,7 +205,7 @@ VALUES
 (20, 'Cuenta Corriente para Negocios', 'ACTIVO', 'DEBITO');
 
 INSERT INTO [dbo].[TIPOS_PRESTAMO] ([ID_TIPOPRESTAMO], [DESCRIPCION], [TIPO_PRESTAMO])
-VALUES 
+VALUES
 (1, 'Préstamo Hipotecario a tasa fija', 'HIPOTECARIO'),
 (2, 'Préstamo para Automóvil nuevo', 'AUTOMOVILISTICO'),
 (3, 'Préstamo Personal para consolidación de deudas', 'BANCARIO'),
@@ -459,15 +459,11 @@ DELETE FROM [dbo].[TIPOS_PRESTAMO]
 DELETE FROM [dbo].[CLIENTES]
     WHERE ID_CLIENTE = 16;
 
-
 DELETE FROM PRODUCTO_BANCARIO WHERE ID_PRODUCTO_BANCARIO = 10;
-
 
 DELETE FROM CUENTA WHERE NUMERO_CUENTA = 1235;
 
-
 DELETE FROM CLIENTES WHERE ID_CLIENTE = 5;
-
 
 DELETE FROM PRESTAMOS WHERE TASA_INTERES > 0.30;
 
@@ -490,11 +486,9 @@ UPDATE CLIENTES SET EMAIL = 'carlos.gonzalez.new@example.com' WHERE ID_CLIENTE =
 
 UPDATE COLABORADOR SET TELEFONO = '555-123-7890' WHERE ID_COLABORADOR = 12;
 
-
 UPDATE PRODUCTO_BANCARIO SET ESTADO_PRODUCTO = 'TRUE' WHERE ID_PRODUCTO_BANCARIO = 14;
 
 UPDATE CUENTA SET SALDO = 500000.00 WHERE NUMERO_CUENTA = 2057;
-
 
 UPDATE PRESTAMOS SET TASA_INTERES = 5.50 WHERE ID_PRESTAMO = 8;
 
@@ -636,4 +630,6 @@ Como equipo avanzamos de la siguiente manera:
 4) Aplicación de los puntos anteriores a nivel SQL Server, esto es: Creación, actualización, borrado de nuestras tablas. Ademas de poblarlas con datos que tuviesen sentido de acuerdo a los atributos.
 
 Lo anterior fue totalmente en equipo, para agilizar y comprobar dichos resultados, organizamos meets. La finalidad fue aprender, mejorar y entender todos los procesos que nos llevaria a cumplir nuestro objetivo. Cabe mencionar, que pensamos en áreas de mejora que iremos implementado a lo largo del curso para llegar a una base de datos mas sólida.
+
+### Link del video: https://drive.google.com/file/d/17jA3nj4laRr22hsdi6vB6zaeqLIh38hy/view
 
