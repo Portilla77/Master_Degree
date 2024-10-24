@@ -1,8 +1,3 @@
-<div style="display: flex; justify-content: space-between; align-items: center;">
-    <img src="./resources/fcfm.jpg" alt="FCFM Logo" width="200" height="200">
-    <img src="./resources/uanl.png" alt="UANL Logo" width="200" height="200">
-</div>
-
 <p align="center">
   <strong>Materia:</strong> Base de Datos Relacionales <br>
   <strong>Maestra:</strong> Dra.Juanita Hernández López <br>
