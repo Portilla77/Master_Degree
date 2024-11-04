@@ -10,6 +10,7 @@ attrs = "==21.2.0"
 matplotlib = "*"
 #actualiza pip install matplotlib scipy numpy
 pyodbc = "*" #5.2.0
+#pip instal scipy 2.1.0
 
 [dev-packages]
 pytest = "*"
