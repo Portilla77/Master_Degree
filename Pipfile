@@ -8,10 +8,11 @@ pandas = "2.2.2"
 numpy = "==2.1.0"
 attrs = "==21.2.0"
 matplotlib = "*"
-#actualiza pip install matplotlib scipy numpy
-pyodbc = "*" #5.2.0
-#pip instal scipy 2.1.0
-
+pyodbc = "==5.2.0"
+scipy = "==1.14.1"
+seaborn = "*"
+#statsmodels
+#pip install scikit-learn
 [dev-packages]
 pytest = "*"
 
