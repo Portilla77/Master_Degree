@@ -340,7 +340,7 @@ CREATE TABLE CUENTA (
 - Justificación: Incluye estado de cuenta para simplificar el diseño. Relación 1
 con OPERACION_BANCARIA.
 
--
+
 CREATE TABLE TIPO_PRESTAMO (
     ID_TIPOPRESTAMO INT PRIMARY KEY,
     TIPO_PRESTAMO VARCHAR(20) NOT NULL,
