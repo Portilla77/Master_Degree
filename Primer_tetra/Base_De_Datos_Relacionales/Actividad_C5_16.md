@@ -1,5 +1,5 @@
 
-# Querys realizadas para la actividad de clase
+## Querys realizadas para la actividad de clase
 
 SELECT C.NOMBRE AS Cliente, CU.NUMERO_CUENTA, CU.SALDO
 FROM CLIENTES C
@@ -17,7 +17,7 @@ JOIN PRESTAMOS P ON PP.ID_PRESTAMO = P.ID_PRESTAMO;
 
 - Creacion de vistas*/
 
-INSERT INTO CLIENTES (ID_CLIENTE, NOMBRE, CALLE, CIUDAD) 
+INSERT INTO CLIENTES (ID_CLIENTE, NOMBRE, CALLE, CIUDAD)
 VALUES 
 (3, 'Carlos Hernández', 'Calle 3', 'Ciudad Z');
 
