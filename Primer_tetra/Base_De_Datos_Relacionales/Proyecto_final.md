@@ -633,7 +633,6 @@ DELETE FROM CLIENTES WHERE ID_CLIENTE = 5;
 DELETE FROM PRESTAMOS WHERE TASA_INTERES > 0.30;
 
 DELETE FROM OPERACION_BANCARIA WHERE TIPO_OPERACION = 'DEPOSITO' AND IMPORTE < 1000.00;
-
 -- Eliminar cuentas inactivas con saldo 0 que pertenecen a clientes que tienen más de una cuenta
 DELETE CUENTA
 WHERE ESTADO_CUENTA = 'INACTIVO'
@@ -649,6 +648,20 @@ WHERE ID_COLABORADOR NOT IN (SELECT ID_COLABORADOR FROM PRODUCTO_BANCARIO)
 DELETE FROM TIPOS_CUENTA
 WHERE ID_TIPOCUENTA NOT IN (SELECT ID_TIPOCUENTA FROM CUENTA)
   AND TIPO_CUENTA = 'AHORRO';
+
+--Configuracion de una tabla usando ON DELETE CASCADE
+CREATE TABLE CUENTA (
+    NUMERO_CUENTA INT PRIMARY KEY,
+    ID_CLIENTE INT NOT NULL,
+    FOREIGN KEY (ID_CLIENTE) REFERENCES CLIENTES(ID_CLIENTE) ON DELETE CASCADE
+);
+ALTER TABLE CUENTA
+DROP CONSTRAINT FK_CUENTA_CLIENTE;
+
+--Si nuestra tabla no esta configurada para eliminar relaciones en cascada, podemos realizar lo siguiente:
+
+ALTER TABLE CUENTA
+DROP CONSTRAINT FK_CUENTA_CLIENTE; --Nombre de la llave foranea de Cuenta
 ```
 ### Actualización de datos en Tablas
 ```sql
@@ -970,6 +983,29 @@ EXEC ActualizarDireccionCliente @ID_CLIENTE = 18,
                                @NUEVA_COLONIA = 'Colonia Moderna';
 -- Modifica Direccion Cliente en Tabla DIRECCION_CLIENTE
 ```
+
+- **Backups**
+```sql
+--Determinar la ruta de guardado para nuestro Back Up
+DECLARE @BackupPath NVARCHAR(256);
+EXEC master.dbo.xp_instance_regread
+    N'HKEY_LOCAL_MACHINE',
+    N'SOFTWARE\Microsoft\MSSQLServer\MSSQLServer',
+    N'BackupDirectory',
+    @BackupPath OUTPUT;
+
+SELECT @BackupPath AS DefaultBackupPath;
+--Resultado:
+/*C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup*/
+
+/*Backup*/
+BACKUP DATABASE BIRMANIA
+TO DISK = 'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\BIRMANIA.bak'
+WITH FORMAT,
+NAME = 'Respaldo Inicial de BIRMANIA',
+DESCRIPTION = 'Respaldo completo antes de pruebas';
+
+```
 ### Explicación de la participación que tuvo cada integrante del equipo:
 Como equipo avanzamos de la siguiente manera:
 1) Abstraer el problema del banco, sus atributos y caracteristicas.
@@ -983,6 +1019,5 @@ Lo anterior fue totalmente en equipo, para agilizar y comprobar dichos resultado
 El diseño de la base de datos para nuestro proyecto representa una solución robusta y escalable que cumple con los principios de integridad, flexibilidad y eficiencia requeridos en un entorno bancario. Cada entidad y relación fue cuidadosamente modelada para reflejar las operaciones reales de un banco, asegurando una estructura modular que facilita la administración de información y soporta el crecimiento futuro.
 
 Finalmente, la base de datos no solo refleja las operaciones actuales del banco, sino que también está preparada para adaptarse a nuevos requerimientos, como la inclusión de nuevos productos, tipos de cuentas, o escenarios de negocio. Este proyecto representa un ejemplo práctico de cómo un diseño eficiente y profesional puede transformar la gestión de información en el sector financiero.
-
 
 
