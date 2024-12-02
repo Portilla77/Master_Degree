@@ -9,7 +9,7 @@ def setup_data_directory() -> str:
             str: The path to the data directory.
     """
     folder_path = os.path.join( os.getcwd(),'Primer_tetra' ,'Metodos_Estadisticos',
-                               'Dispersion')
+                               'Qplot')
     os.makedirs(folder_path, exist_ok=True)
     return folder_path
 

@@ -9,7 +9,6 @@
     Jorge Ramon Flores Portilla
   </h2>
   <h2 style="font-size: 1.8em; color: white; margin: 0;">
-    Ludan Aguirre Morales
   </h2>
 </div>
 <h2 align="center" style="font-size: 2em; color: white;">
