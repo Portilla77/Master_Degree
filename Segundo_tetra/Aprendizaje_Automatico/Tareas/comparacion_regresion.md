@@ -22,7 +22,7 @@
 - Probar Lasso Regression para evaluar si algunos coeficientes pueden ser eliminados.
 - Realizar validación cruzada para comprobar la estabilidad de los modelos.
 
-![alt text](<Captura de pantalla (867).png>)
+![alt text](../image2.png)
 
 ## Incluyendo Lasso Regression
 
@@ -58,6 +58,6 @@
 Parece ser que si el objetivo es la mejor precisión en test, Lasso es la mejor opción en este experimento.
 Si todas las variables son relevantes y queremos estabilidad en los coeficientes, Ridge es la mejor opción Mientras que si el dataset es grande y queremos eficiencia computacional, SGD puede ser útil, aunque puede introducir más variabilidad.
 
-![alt text](<Captura de pantalla (869).png>)
+![alt text](../image3.png)
 
 Link del código: https://colab.research.google.com/drive/1Dg6saUMEnCfKIiUtBHDxM-jXE9ayLJtJ?usp=sharing

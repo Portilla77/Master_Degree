@@ -25,7 +25,7 @@
 - Accuracy general: 60.03%
 - Matriz de Confusión:
 
-![alt text](image.png)
+![alt text](../image1.png)
 - El modelo clasifica mejor la clase 1, pero tiene dificultades con la clase 0.
 
 - Reporte de Clasificación:

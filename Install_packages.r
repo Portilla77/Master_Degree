@@ -1,3 +1,5 @@
-install.packages("dplyr") #Transformación a datos
+install.packages("openxlsx")
+install.packages("dplyr")
+install.packages("ggplot2")
 
 renv::snapshot()
