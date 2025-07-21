@@ -1,9 +1,6 @@
 <h1 align="center">Proyecto Final Datos Masivos</h1>
 <h2 align="center">Algoritmo de recomendación basado en contenido</h2>
-<p align="center"><strong>Nombre:</strong> Jorge Ramón Flores Portilla</p>
-<p align="center"><strong>Matrícula:</strong> 1550162</p>
-<p align="center"><strong>Nombre:</strong> Luis Edgar Rodriguez Lerma</p>
-<p align="center"><strong>Matrícula:</strong> 1620401</p>
+<p align="center"><strong>Equipo:</strong> Jorge Ramón Flores Portilla 1550162 y Luis Edgar Rodriguez Lerma 1620401</p>
 <p align="center"><strong>Maestro:</strong> Christian Aguilar Fuster</p>
 <p align="center"><strong>Materia:</strong> Datos Masivos</p>
 
