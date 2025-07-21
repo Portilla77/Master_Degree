@@ -11,9 +11,11 @@ matplotlib = "*"
 pyodbc = "==5.2.0"
 scipy = "==1.14.1"
 seaborn = "*"
-#statsmodels
-#pip install scikit-learn
+statsmodels = "*"
+scikit-learn = "*"
 openpyxl = "*"
+psutil = "*"
+pyarrow = "*"
 
 [dev-packages]
 pytest = "*"

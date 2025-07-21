@@ -5,7 +5,6 @@ from scipy.stats import pearsonr
 from typing import List, Literal
 from dm_read_data import DataReader
 
-
 class BasedRecommender(DataReader):
     """Algoritmo de recomendación basado en contenido. Calcula similitudes
         entre elementos usando las siguientes métricas:
@@ -16,16 +15,40 @@ class BasedRecommender(DataReader):
     """
 
     def _cosine_similarity(self, matrix: np.ndarray) -> np.ndarray:
-        """D"""
+        """Calcula la similitud del coseno entre todas las filas de la matriz.
+
+            Args:
+                matrix : (np.ndarray): Matriz numérica donde cada fila representa
+                        un ítem y cada columna una característica.
+
+            Return
+                np.ndarray : Matriz cuadrada de similitud por coseno entre ítems."""
         return cosine_similarity(matrix)
 
     def _euclidean_similarity(self, matrix: np.ndarray) -> np.ndarray:
-        """D"""
+        """ Calcula la similitud basada en la distancia euclidiana inversa.
+            La similitud se define como: 1 / (1 + distancia euclidiana).
+
+            Args:
+                matrix : (np.ndarray):
+            Matriz numérica de características por ítem.
+
+            Return
+                (np.ndarray) : Matriz cuadrada de similitud entre ítems basada en
+                    distancia euclidiana."""
         distances = euclidean_distances(matrix)
         return 1 / (1 + distances)
 
     def _pearson_similarity(self, matrix: np.ndarray) -> np.ndarray:
-        """D"""
+        """ Calcula la similitud entre ítems usando la correlación de Pearson.
+
+            Args:
+                matrix : (np.ndarray) : Matriz donde cada fila es un ítem
+                        y cada columna una característica.
+
+            Return
+                (np.ndarray) : Matriz cuadrada con coeficientes de similitud
+                        entre ítems."""
         n_items = matrix.shape[0]
         sim = np.zeros((n_items, n_items))
         for i in range(n_items):
@@ -36,17 +59,6 @@ class BasedRecommender(DataReader):
                     sim[i, j] = 1.0
         return sim
 
-    def _jaccard_similarity(self, matrix: np.ndarray) -> np.ndarray:
-        """D"""
-        matrix_bin = (matrix > 0).astype(int)
-        n_items = matrix_bin.shape[0]
-        sim = np.zeros((n_items, n_items))
-        for i in range(n_items):
-            for j in range(n_items):
-                intersection = np.logical_and(matrix_bin[i], matrix_bin[j]).sum()
-                union = np.logical_or(matrix_bin[i], matrix_bin[j]).sum()
-                sim[i, j] = intersection / union if union != 0 else 0.0
-        return sim
 
     def recommend(
         self,
@@ -57,7 +69,21 @@ class BasedRecommender(DataReader):
         top_k: int = 5,
         metric: Literal['coseno', 'euclidean', 'pearson', 'jaccard'] = 'coseno'
     ) -> pd.DataFrame:
-        """Recomendaciones para un ítem dado según una métrica de similitud."""
+        """ Genera recomendaciones similares a un ítem objetivo usando una métrica de similitud.
+
+        Args:
+            df : (pd.DataFrame); DataFrame con todos los ítems y sus características.
+            item_id_column : (str) : Nombre de la columna que contiene los identificadores
+                                    únicos de ítems.
+            features : (List[str]) : Lista de columnas numéricas a usar como características.
+            target_id : (Any) : Valor de ID del ítem para el cual se generarán recomendaciones.
+            top_k : (int, optional) : Número de ítems similares a devolver (por defecto 5).
+            metric : {'coseno', 'euclidean', 'pearson', 'jaccard'}, (optional) : Métrica de
+                    similitud a usar (por defecto 'coseno').
+
+            Return:
+                (pd.DataFrame) : Subconjunto del DataFrame original con los ítems más similares
+                                al objetivo."""
         df = df.dropna(subset=features + [item_id_column])
         matrix = df[features].to_numpy()
 
@@ -83,10 +109,10 @@ class BasedRecommender(DataReader):
         return df.iloc[top_indices][[item_id_column] + features].copy()
 
 
-recommender = BasedRecommender("Tercer_tetra/Datos_masivos/tcc_ceds_music.csv", chunksize=10000, n_cores=6)
+recommender = BasedRecommender("External_data/tcc_ceds_music.csv", chunksize=10000, n_cores=12)
 
 _, df = recommender.read_with_dask()
-df = df.sample(10, random_state=42).reset_index(drop=True)
+df = df.sample(28372, random_state=42).reset_index(drop=True)#28372. Pruebas con 100,500 y 1000 muestras
 
 target_id = df["track_name"].iloc[0]
 print(target_id)
@@ -100,10 +126,10 @@ recs = recommender.recommend(
     ],
     target_id=target_id,
     top_k=5,
-    metric='pearson'
+    #metric='pearson'
     #metric = 'euclidean'
     #metric = 'coseno'
-    #metric= 'jaccard'
+    metric= 'jaccard'
 )
 print("Recomendaciones:")
 print(recs)
