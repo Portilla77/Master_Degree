@@ -207,7 +207,6 @@ Dado que no se cuenta con un conjunto de validación con ratings explícitos, la
 | Jaccard        | 100     | velvet light     | seven sisters, unchained melody, love., one more time, i’ve been in love before         |
 | Jaccard        | 500     | velvet light     | unchained melody, love., one more time, i’ve been in love before, seven sisters         |
 | Jaccard        | 1000    | velvet light     | love., unchained melody, one more time, i’ve been in love before, seven sisters         |
-                                                   |
 
 **Nota**: En las métricas distintas a coseno, se notó una mayor sensibilidad al tamaño de la muestra, lo que sugiere que el rendimiento y estabilidad de algunas métricas como Jaccard podrían verse afectadas por la escasez de datos binarios significativos en muestras pequeñas.
 
