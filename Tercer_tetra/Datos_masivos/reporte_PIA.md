@@ -2,6 +2,7 @@
 <h2 align="center">Algoritmo de recomendación basado en contenido</h2>
 <p align="center"><strong>Equipo:</strong> Jorge Ramón Flores Portilla 1550162 y Luis Edgar Rodriguez Lerma 1620401</p>
 <p align="center"><strong>Maestro:</strong> Christian Aguilar Fuster</p>
+
 ### Introducción
 
 En este proyecto se desarrolló una aplicación en Python orientada a la recomendación de productos, enfocándose concretamente en canciones. Se eligió el enfoque basado en contenido, lo que implica que las recomendaciones se generan analizando las características propias de cada ítem, sin necesidad de depender de opiniones o interacciones previas de usuarios. Es decir, el sistema compara la información interna de cada canción, como su nivel de energía, la presencia de elementos románticos, la violencia en su contenido, la presencia de música o lugares, su duración (representada como "len") y su grado de movimiento.
