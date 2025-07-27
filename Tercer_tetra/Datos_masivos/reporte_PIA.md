@@ -173,20 +173,99 @@ Donde:
 Esta solución aprovecha el procesamiento paralelo en la lectura de datos, y explora distintas métricas de similitud para evaluar qué tan eficientemente se pueden generar recomendaciones de calidad sobre un conjunto masivo de canciones.
 
 ---
+### Experimentación
 
-## Experimentación
+- **Extracción por medio de SQL**
 
-Se realizaron pruebas con muestras de **100**, **500**, **1000** y **todas las 28,372 canciones**, usando cada una de las métricas de similitud. Para cada combinación se registraron las recomendaciones generadas.
+- **Webscraping**
 
-### Objetivo de las pruebas
+    En esta etapa del proyecto se implementó un enfoque basado en enriquecimiento de datos mediante conexión externa a una API pública, específicamente la API de Last.fm.
+    El objetivo fue complementar el conjunto de datos original con nuevas variables que permitieran mejorar la calidad y profundidad del modelo de recomendación.
 
-El objetivo fue analizar cómo el tamaño de la muestra y la métrica de similitud influyen en la calidad y estabilidad de las recomendaciones generadas. Además, se buscó observar si las canciones recomendadas cambiaban drásticamente al aumentar el número de muestras.
+    La API de Last.fm proporciona un amplio repertorio de endpoints que permiten consultar información musical en tiempo real, incluyendo listas de popularidad, metadatos de canciones, información de artistas, géneros, y etiquetas asociadas.
 
-### Evaluación de resultados
+    Para acceder a esta API fue necesario:
 
-Dado que no se cuenta con un conjunto de validación con ratings explícitos, la evaluación fue principalmente cualitativa y comparativa. Se analizó si las recomendaciones parecían consistentes (en estilo o tema) con la canción objetivo, y si se mantenían similares entre diferentes tamaños de muestra.
+    - Registrar una clave personal de desarrollador (API_KEY) proporcionada por el portal de Last.fm.
+    - Construir peticiones HTTP mediante la librería requests.
+    - Realizar múltiples solicitudes paginadas, dado que la API solo permitia ciertas consultas por tiempo (3 consultas por minuto de acuerdo al tamaño de datos)
 
+    El siguiente fragmento de código muestra cómo se obtuvo un catálogo de 7,000 canciones populares directamente desde la API:
+
+    ```python
+    import requests
+    import pandas as pd
+    import time
+
+    def get_track_info(artist, track, api_key):
+        params = {
+            "method": "track.getInfo",
+            "api_key": api_key,
+            "artist": artist,
+            "track": track,
+            "format": "json"
+        }
+        res = requests.get(BASE_URL, params=params)
+        data = res.json()
+        track_data = data.get("track", {})
+        return {
+            "duration": track_data.get("duration"),
+            "playcount": track_data.get("playcount"),
+            "album": track_data.get("album", {}).get("title"),
+            "sadness": track_data.get("sadness"),
+            "valance": track_data.get("valance"),
+            "age": track_data.get("age"),
+            "tags": ", ".join([tag["name"] for tag in track_data.get("toptags", {}).get("tag", [])])
+        }
+
+    df_top = get_top_tracks(API_KEY)
+
+    Este procedimiento devolvió una tabla con los siguientes campos por canción:
+
+    - track_name
+    - artist
+    - listeners
+    - valence
+
+    Variables adicionales extraídas:
+
+    Las nuevas columnas agregadas al dataset a partir de esta conexión fueron:
+
+    - duration: duración en milisegundos
+
+    - playcount: número total de reproducciones
+
+    - album: nombre del álbum al que pertenece la canción
+
+    - tags: etiquetas musicales generadas por la comunidad (géneros, temas, etc.)
+
+    - age: estimación de la antigüedad del track
+
+    - valence: medida del tono emocional positivo de la canción
+
+    - sadness: indicador de carga emocional negativa
+
+    Una vez recolectada la información, se realizó una limpieza y normalización de nombres de las canciones (track_name) para permitir el cruce con el conjunto de datos original.
+
+    Se identificaron 2,206 canciones en común entre ambos conjuntos de datos.
+    Estas coincidencias fueron utilizadas como base para realizar una fusión de ambas fuentes mediante la función merge(), uniendo por la columna track_name y conservando las columnas originales junto con los nuevos atributos provenientes de la API.
+
+    Esto dio lugar a un nuevo dataset enriquecido que permitió al sistema de recomendación disponer de información más diversa y representativa para calcular similitudes entre canciones.
+    Por ejemplo, ahora se podía evaluar si dos canciones eran parecidas no solo en temas líricos, sino también en aspectos como:
+
+    - Popularidad
+
+    - Emocionalidad
+
+    - Antigüedad
+    ```
 ### Recomendaciones generadas por tamaño de muestra
+
+Una vez obtenidos los datos con el enfoque anterior, se procedió a ejecutar el sistema de recomendación utilizando un enfoque basado en contenido. El algoritmo compara cada canción objetivo con las demás del conjunto, evaluando su similitud a partir de los vectores de características extraídas y procesadas previamente.
+
+Para este análisis se seleccionaron distintas métricas de similitud: coseno, euclidiana, pearson y Jaccard. Estas se aplicaron sobre subconjuntos del dataset con tamaños de muestra crecientes (100, 500, 1000 y el total de 28,372 canciones) con el fin de observar cómo la calidad y estabilidad de las recomendaciones se veían afectadas por el volumen de datos.
+
+A continuación se presentan los resultados para una canción objetivo específica, mostrando las cinco canciones más similares generadas por el modelo bajo cada configuración:
 
 | Métrica        | Muestra | Canción objetivo | Recomendaciones (Top 5)                                                                 |
 |----------------|---------|------------------|------------------------------------------------------------------------------------------|

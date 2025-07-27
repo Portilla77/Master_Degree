@@ -16,6 +16,7 @@ scikit-learn = "*"
 openpyxl = "*"
 psutil = "*"
 pyarrow = "*"
+requests = "*"
 
 [dev-packages]
 pytest = "*"

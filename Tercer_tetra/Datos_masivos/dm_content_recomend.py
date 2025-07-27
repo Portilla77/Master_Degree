@@ -109,10 +109,13 @@ class BasedRecommender(DataReader):
         return df.iloc[top_indices][[item_id_column] + features].copy()
 
 
-recommender = BasedRecommender("External_data/tcc_ceds_music.csv", chunksize=10000, n_cores=12)
+recommender = BasedRecommender("External_data/merged_data_music.csv", chunksize=10000, n_cores=12)
 
 _, df = recommender.read_with_dask()
-df = df.sample(28372, random_state=42).reset_index(drop=True)#28372. Pruebas con 100,500 y 1000 muestras
+print(df.columns)
+print(df['track_name'][:10])
+
+df = df.sample(100, random_state=42).reset_index(drop=True)#28372. Pruebas con 100,500 y 1000 muestras
 
 target_id = df["track_name"].iloc[0]
 print(target_id)
@@ -122,14 +125,15 @@ recs = recommender.recommend(
     item_id_column='track_name',
     features=[
         'danceability', 'energy', 'len', 'romantic',
-        'violence', 'music', 'movement/places'
+        'violence', 'music', 'movement/places','age',
+        'valence'
     ],
     target_id=target_id,
     top_k=5,
     #metric='pearson'
     #metric = 'euclidean'
-    #metric = 'coseno'
-    metric= 'jaccard'
+    metric = 'coseno'
+    #metric= 'jaccard'
 )
 print("Recomendaciones:")
 print(recs)
