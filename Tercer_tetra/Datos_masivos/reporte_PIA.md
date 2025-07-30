@@ -176,6 +176,46 @@ Esta solución aprovecha el procesamiento paralelo en la lectura de datos, y exp
 ### Experimentación
 
 - **Extracción por medio de SQL**
+    ### Conexión a base de datos y obtención de características musicales
+
+    Durante esta fase se complementó el conjunto de datos inicial, realizando una conexión a un sistema de base de datos en **Microsoft SQL Server**, donde se integraron las siguientes características:
+
+    - communication
+    - obscene
+    - music
+    - movement_places
+    - light_visual_perceptions
+    - family_spiritual
+    - like_girls
+    - sadness
+    - feelings
+    - danceability
+
+    Entre otras.
+
+    La unión entre el set original y la tabla song, alojada en la base de datos, se realizó mediante la llave primaria id.
+
+    El siguiente fragmento fue utilizado para generar la obtención de las cualidades musicales desde SQL:
+
+    ```python
+    def fetch_song_table(self, table='song'):
+        if self.connection is None:
+            self.connect()
+
+        if self.connection is None:
+            raise Exception('No hay conexión a la base de datos.')
+
+        query = (
+            f"SELECT id, communication, obscene, music, movement_places, "
+            f"light_visual_perceptions, family_spiritual, like_girls, "
+            f"sadness, feelings, danceability, loudness, acousticness, instrumentalness, "
+            f"valence, energy, topic, age FROM {table}"
+        )
+
+        df = pd.read_sql(query, self.connection)
+        print(f'[INFO] Se leyeron {len(df)} filas de la tabla {table}.')
+        return df
+    ```
 
 - **Webscraping**
 
