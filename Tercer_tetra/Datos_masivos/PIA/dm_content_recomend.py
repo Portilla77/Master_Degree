@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity, euclidean_distances
 from scipy.stats import pearsonr
 from typing import List, Literal
-from dm_read_data import DataReader
+from Tercer_tetra.Datos_masivos.PIA.dm_read_data import DataReader
 
 class BasedRecommender(DataReader):
     """Algoritmo de recomendación basado en contenido. Calcula similitudes
